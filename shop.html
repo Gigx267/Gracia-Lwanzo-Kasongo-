@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Gracia Lwanzo Kasongo — accessories collection. Pens, mugs, prints and jewellery.">
+  <title>Gracia Lwanzo Kasongo | Accessories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Stripe.js -->
+  <script src="https://js.stripe.com/v3/">
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-deep: #0A0A08;
+      --bg-elevated: #131310;
+      --text-primary: #EAE9E2;
+      --text-secondary: #B8B7AE;
+      --gold-primary: #C8A951;
+      --gold-dim: #8E793E;
+      --border-subtle: #2A2A26;
+      --card-bg: #141411;
+      --transition-smooth: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1.2rem 2rem;
+      transition: var(--transition-smooth);
+      background: transparent;
+    }
+
+    .navbar.scrolled {
+      background: rgba(10, 10, 8, 0.92);
+      backdrop-filter: blur(14px);
+      padding: 0.8rem 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+      text-decoration: none;
+      background: linear-gradient(135deg, #fff 30%, var(--gold-primary) 80%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.8rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 400;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold-primary);
+    }
+
+    .contact-btn {
+      border: 1px solid var(--gold-primary);
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      transition: background 0.2s;
+    }
+
+    .contact-btn:hover {
+      background: var(--gold-primary);
+      color: #0A0A08 !important;
+    }
+
+    .menu-icon {
+      display: none;
+      flex-direction: column;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      gap: 6px;
+    }
+
+    .menu-icon span {
+      width: 26px;
+      height: 2px;
+      background: var(--text-primary);
+      transition: 0.2s;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 10rem 2rem 4rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 500;
+      letter-spacing: -1px;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(to right, #fff, var(--gold-primary));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .gallery-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 2rem 5rem;
+    }
+
+    .art-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2.2rem;
+    }
+
+    .art-card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(2px);
+      transform: translateY(0);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .art-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold-dim);
+      box-shadow: 0 25px 35px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .card-media {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #1a1a17;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .art-card:hover .card-media img {
+      transform: scale(1.03);
+    }
+
+    .badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--gold-primary);
+      color: #0A0A08;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.3rem 0.9rem;
+      border-radius: 30px;
+      letter-spacing: 1px;
+      z-index: 2;
+    }
+
+    .card-info {
+      padding: 1.5rem 1.3rem 1.8rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .art-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      margin-bottom: 0.25rem;
+    }
+
+    .art-sub {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      letter-spacing: 1.2px;
+      margin-bottom: 0.8rem;
+    }
+
+    .art-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      margin-bottom: 1.2rem;
+      flex: 1;
+    }
+
+    .art-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 1rem;
+      margin-top: 0.2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .dimensions {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .price {
+      font-family: 'Inter', monospace;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--gold-primary);
+    }
+
+    .buy-btn {
+      background: var(--gold-primary);
+      border: none;
+      color: #0A0A08;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.8px;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    .buy-btn:hover {
+      background: #dbb85c;
+      transform: scale(0.97);
+    }
+
+    .buy-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* lightbox (minimal adapt) */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 5, 3, 0.96);
+      backdrop-filter: blur(18px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0s 0.3s;
+    }
+
+    .lightbox.active {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .lb-container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      width: 90%;
+      background: rgba(20, 20, 17, 0.9);
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(200, 169, 81, 0.3);
+    }
+
+    .lb-img {
+      flex: 1.2;
+      min-width: 260px;
+      background: #0c0c09;
+    }
+
+    .lb-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lb-details {
+      flex: 1;
+      padding: 2.5rem;
+      background: #131310;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 1.8rem;
+      right: 2.2rem;
+      font-size: 3rem;
+      color: var(--text-primary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .lb-close:hover {
+      color: var(--gold-primary);
+      transform: scale(1.05);
+    }
+
+    .audio-widget {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 0.6rem 1.2rem;
+      border-radius: 60px;
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      z-index: 999;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.9rem;
+    }
+
+    .audio-btn {
+      background: transparent;
+      border: 1px solid var(--gold-dim);
+      color: var(--text-primary);
+      padding: 0.3rem 0.9rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+
+    .audio-btn:hover {
+      background: var(--gold-primary);
+      color: #0A0A08;
+      border-color: var(--gold-primary);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2.5rem;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 780px) {
+      .menu-icon {
+        display: flex;
+      }
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: #0f0f0d;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2rem;
+        transition: 0.3s ease;
+        backdrop-filter: blur(20px);
+        z-index: 1001;
+        border-left: 1px solid var(--gold-dim);
+      }
+      .nav-links.open {
+        right: 0;
+      }
+      .logo {
+        z-index: 1002;
+      }
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+      .lb-container {
+        flex-direction: column;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .audio-widget {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.4rem 1rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .art-card {
+      animation: fadeIn 0.5s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">Gracia Lwanzo Kasongo</a>
+      <button class="menu-icon" id="menuToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Biography.html">Biography</a></li>
+        <li><a href="Works.html">Artworks</a></li>
+        <li><a href="shop.html" class="active">Shop</a></li>
+        <li><a href="contact.html" class="contact-btn">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <h1>Accessories</h1>
+      <p>Curated pieces — from pens to jewellery, each item carries the spirit of the collection.</p>
+    </div>
+
+    <div class="gallery-container">
+      <div class="art-grid" id="accessoryGrid"></div>
+    </div>
+  </main>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <button class="lb-close" id="closeLightboxBtn" aria-label="Close lightbox">&times;</button>
+    <div class="lb-container">
+      <div class="lb-img">
+        <img id="lightboxImg" src="" alt="Accessory detail">
+      </div>
+      <div class="lb-details" id="lightboxDetails"></div>
+    </div>
+  </div>
+
+  <div class="audio-widget">
+    <span>🎧</span>
+    <button id="playMusicBtn" class="audio-btn">Play</button>
+    <button id="muteMusicBtn" class="audio-btn">Mute</button>
+  </div>
+  <audio id="ambientMusic" loop preload="metadata">
+    <source src="mm2.mp3" type="audio/mpeg">
+  </audio>
+
+  <footer>
+    <p>© Gracia Lwanzo Kasongo — accessories collection</p>
+  </footer>
+
+  <script>
+    (function() {
+      // --------------------------------------------------------------
+      // CONFIGURATION: replace with your own Stripe publishable key
+      // --------------------------------------------------------------
+      const STRIPE_PUBLISHABLE_KEY = 'pk_test_51Qj3lAP5V5PqVzR7N9cBwEHZREprsFFdYQjSLK9GpZB55CfcPzDmP0NWFBNhQxJhE2P4pQl2TfZ5c7fS4Vd3rX1H2m8nBvC9wX';
+      const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+
+      // --------------------------------------------------------------
+      // ACCESSORIES DATA (prices in cents for Stripe)
+      // --------------------------------------------------------------
+      const accessories = [{
+        id: 101,
+        title: "Pen",
+        subtitle: "Signature edition",
+        desc: "Minimalist matte pen with gold accents. A perfect daily companion.",
+        dimensions: "14 cm",
+        price: "€4.50",
+        priceCents: 450,
+        img: "xz (8).jpeg",
+        badge: null
+      }, {
+        id: 102,
+        title: "Mug",
+        subtitle: "Ceramic collection",
+        desc: "Generous 350ml mug with Adinkra-inspired motif. Dishwasher safe.",
+        dimensions: "350 ml",
+        price: "€9.50",
+        priceCents: 950,
+        img: "xz (6).jpeg",
+        badge: null
+      }, {
+        id: 103,
+        title: "Eruit",
+        subtitle: "Limited print",
+        desc: "High-quality giclée print on archival paper. Signed and numbered.",
+        dimensions: "30 × 40 cm",
+        price: "€15.50",
+        priceCents: 1550,
+        img: "xz (5).jpeg",
+        badge: null
+      }, {
+        id: 104,
+        title: "Collier",
+        subtitle: "Brass necklace",
+        desc: "Handcrafted brass pendant with gold finish. Adjustable chain.",
+        dimensions: "45 cm chain",
+        price: "€13.50",
+        priceCents: 1350,
+        img: "xz (4).jpeg",
+        badge: null
+      }];
+
+      // DOM refs
+      const gridContainer = document.getElementById('accessoryGrid');
+      const lightboxEl = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxDetails = document.getElementById('lightboxDetails');
+
+      // ---------- render accessories ----------
+      function renderAccessories() {
+        if (!gridContainer) return;
+        gridContainer.innerHTML = '';
+        accessories.forEach(acc => {
+          const card = document.createElement('div');
+          card.className = 'art-card';
+          card.setAttribute('data-id', acc.id);
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+          card.setAttribute('aria-label', `View details for ${acc.title}`);
+
+          let badgeHTML = '';
+          if (acc.badge) {
+            badgeHTML = `<div class="badge">${acc.badge}</div>`;
+          }
+
+          card.innerHTML = `
+                    <div class="card-media">
+                        <img src="${acc.img}" alt="${acc.title}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/2A2A26/EAE9E2?text=Accessory';">
+                        ${badgeHTML}
+                    </div>
+                    <div class="card-info">
+                        <h3 class="art-title">${acc.title}</h3>
+                        <div class="art-sub">${acc.subtitle}</div>
+                        <p class="art-desc">${acc.desc}</p>
+                        <div class="art-meta">
+                            <div class="dimensions"><strong>${acc.dimensions}</strong></div>
+                            <div class="price">${acc.price}</div>
+                        </div>
+                        <button class="buy-btn" data-id="${acc.id}" data-price="${acc.priceCents}" data-name="${acc.title}">Buy now</button>
+                    </div>
+                `;
+
+          // Click on card opens lightbox (except if click on button)
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('.buy-btn')) return;
+            openLightbox(acc);
+          });
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              if (!e.target.closest('.buy-btn')) openLightbox(acc);
+            }
+          });
+
+          // Buy button: handle Stripe checkout
+          const buyBtn = card.querySelector('.buy-btn');
+          buyBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const name = buyBtn.dataset.name;
+            const priceCents = parseInt(buyBtn.dataset.price, 10);
+            const id = buyBtn.dataset.id;
+            await handlePurchase(name, priceCents, id);
+          });
+
+          gridContainer.appendChild(card);
+        });
+      }
+
+      // ---------- Stripe checkout ----------
+      async function handlePurchase(productName, amountCents, productId) {
+        try {
+          // In production, this should call your server to create a Checkout Session.
+          // For demo, we create a client-side session using Stripe Checkout (only works with a valid key and product).
+          // This is a simplified example: we redirect to a static checkout session.
+          // Replace with your own server endpoint.
+          const response = await fetch('/create-checkout-session', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              productName: productName,
+              amount: amountCents,
+              productId: productId,
+            }),
+          });
+
+          if (!response.ok) {
+            // fallback: use a dummy session for demonstration (only if server not available)
+            console.warn('Server endpoint not available, using fallback demo session.');
+            // For demo: we use a dummy session ID (this will not work in production)
+            // In a real environment, you must have a server endpoint.
+            // We'll simulate a redirect to Stripe Checkout with a dummy session.
+            // For demonstration, we show an alert.
+            alert(`[DEMO] Redirect to Stripe for: ${productName} (€${(amountCents/100).toFixed(2)})`);
+            return;
+          }
+
+          const session = await response.json();
+          const result = await stripe.redirectToCheckout({ sessionId: session.id });
+          if (result.error) {
+            alert(result.error.message);
+          }
+        } catch (error) {
+          console.error('Checkout error:', error);
+          // fallback for demo: show alert
+          alert(`[DEMO] Purchase: ${productName} (€${(amountCents/100).toFixed(2)})`);
+        }
+      }
+
+      // ---------- lightbox ----------
+      function openLightbox(acc) {
+        lightboxImg.src = acc.img;
+        lightboxImg.alt = acc.title;
+
+        lightboxDetails.innerHTML = `
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 500; margin-bottom: 0.5rem; letter-spacing: -0.3px; color: var(--text-primary);">${acc.title}</h2>
+                <p style="color: var(--gold-primary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 1.5rem;">${acc.subtitle}</p>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">${acc.desc}</p>
+                <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
+                    <div><span style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Size</span><br><strong style="font-size:1rem;">${acc.dimensions}</strong></div>
+                    <div><span class="price" style="font-size: 1.8rem;">${acc.price}</span></div>
+                </div>
+                <button class="buy-btn" data-id="${acc.id}" data-price="${acc.priceCents}" data-name="${acc.title}" style="margin-top: 2rem; width: auto; padding: 0.8rem 2.5rem; font-size: 0.8rem;">Buy now — ${acc.price}</button>
+            `;
+
+        // attach buy listener inside lightbox
+        const lbBuyBtn = lightboxDetails.querySelector('.buy-btn');
+        if (lbBuyBtn) {
+          lbBuyBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const name = lbBuyBtn.dataset.name;
+            const priceCents = parseInt(lbBuyBtn.dataset.price, 10);
+            const id = lbBuyBtn.dataset.id;
+            await handlePurchase(name, priceCents, id);
+          });
+        }
+
+        lightboxEl.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLightbox() {
+        lightboxEl.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      document.getElementById('closeLightboxBtn')?.addEventListener('click', closeLightbox);
+      lightboxEl?.addEventListener('click', (e) => {
+        if (e.target === lightboxEl) closeLightbox();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightboxEl.classList.contains('active')) closeLightbox();
+      });
+
+      // ---------- mobile menu ----------
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinks = document.getElementById('navLinks');
+      if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+          navLinks.classList.toggle('open');
+          const expanded = navLinks.classList.contains('open');
+          menuToggle.setAttribute('aria-expanded', expanded);
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+          link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+
+      // ---------- navbar scroll ----------
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 30) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+      });
+
+      // ---------- audio ----------
+      const audio = document.getElementById('ambientMusic');
+      const playBtn = document.getElementById('playMusicBtn');
+      const muteBtn = document.getElementById('muteMusicBtn');
+
+      if (audio) {
+        audio.volume = 0.25;
+        let autoPlayAttempted = false;
+
+        const updateAudioButtons = () => {
+          if (playBtn) playBtn.textContent = audio.paused ? 'Play' : 'Pause';
+          if (muteBtn) muteBtn.textContent = audio.muted ? 'Unmute' : 'Mute';
+        };
+
+        const attemptAutoPlay = () => {
+          if (autoPlayAttempted) return;
+          autoPlayAttempted = true;
+          audio.play().then(() => {
+            updateAudioButtons();
+          }).catch(() => {});
+        };
+
+        window.addEventListener('load', () => {
+          attemptAutoPlay();
+          const enableAudio = () => {
+            if (audio.paused && !autoPlayAttempted) {
+              audio.play().catch(() => null);
+            }
+            document.removeEventListener('click', enableAudio);
+            document.removeEventListener('touchstart', enableAudio);
+          };
+          document.addEventListener('click', enableAudio);
+          document.addEventListener('touchstart', enableAudio);
+        });
+
+        if (playBtn) {
+          playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.paused) audio.play().catch(() => null);
+            else audio.pause();
+            updateAudioButtons();
+          });
+        }
+        if (muteBtn) {
+          muteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            audio.muted = !audio.muted;
+            updateAudioButtons();
+          });
+        }
+        audio.addEventListener('playing', updateAudioButtons);
+        audio.addEventListener('pause', updateAudioButtons);
+        audio.addEventListener('volumechange', updateAudioButtons);
+      }
+
+      // ---------- init ----------
+      renderAccessories();
+      console.log("Accessories page with Stripe integration (demo mode).");
+    })();
+  </script>
+</body>
+</html>
