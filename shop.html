@@ -16,14 +16,14 @@
     }
 
     :root {
-      --bg-deep: #0A0A08;
-      --bg-elevated: #131310;
-      --text-primary: #EAE9E2;
-      --text-secondary: #B8B7AE;
-      --gold-primary: #C8A951;
-      --gold-dim: #8E793E;
-      --border-subtle: #2A2A26;
-      --card-bg: #141411;
+      --bg-deep: #FDF8F6;        /* soft white-pink */
+      --bg-elevated: #FFFFFF;
+      --text-primary: #3D2C2A;   /* deep rose-brown */
+      --text-secondary: #7A5E5A;
+      --gold-primary: #D48C8C;   /* dusty pink / gold-pink */
+      --gold-dim: #C47A7A;
+      --border-subtle: #F0E0DC;
+      --card-bg: #FFFFFF;
       --transition-smooth: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
 
@@ -47,7 +47,7 @@
     }
 
     .navbar.scrolled {
-      background: rgba(10, 10, 8, 0.92);
+      background: rgba(253, 248, 246, 0.92);
       backdrop-filter: blur(14px);
       padding: 0.8rem 2rem;
       border-bottom: 1px solid var(--border-subtle);
@@ -66,9 +66,8 @@
       font-size: 1.8rem;
       font-weight: 600;
       letter-spacing: -0.5px;
-      color: var(--text-primary);
       text-decoration: none;
-      background: linear-gradient(135deg, #fff 30%, var(--gold-primary) 80%);
+      background: linear-gradient(135deg, #3D2C2A 30%, var(--gold-primary) 80%);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
@@ -98,12 +97,12 @@
       border: 1px solid var(--gold-primary);
       padding: 0.5rem 1.2rem;
       border-radius: 40px;
-      transition: background 0.2s;
+      transition: background 0.2s, color 0.2s;
     }
 
     .contact-btn:hover {
       background: var(--gold-primary);
-      color: #0A0A08 !important;
+      color: #fff !important;
     }
 
     .menu-icon {
@@ -135,7 +134,7 @@
       font-weight: 500;
       letter-spacing: -1px;
       margin-bottom: 1.2rem;
-      background: linear-gradient(to right, #fff, var(--gold-primary));
+      background: linear-gradient(to right, #3D2C2A, var(--gold-primary));
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
@@ -168,19 +167,20 @@
       border: 1px solid var(--border-subtle);
       backdrop-filter: blur(2px);
       transform: translateY(0);
+      box-shadow: 0 8px 20px rgba(200, 150, 140, 0.08);
     }
 
     .art-card:hover {
       transform: translateY(-8px);
       border-color: var(--gold-dim);
-      box-shadow: 0 25px 35px -15px rgba(0,0,0,0.6);
+      box-shadow: 0 25px 35px -15px rgba(180, 120, 110, 0.2);
     }
 
     .card-media {
       position: relative;
       aspect-ratio: 1 / 1;
       overflow: hidden;
-      background: #1a1a17;
+      background: #f5eeeb;
     }
 
     .card-media img {
@@ -199,7 +199,7 @@
       top: 1rem;
       right: 1rem;
       background: var(--gold-primary);
-      color: #0A0A08;
+      color: #fff;
       font-size: 0.7rem;
       font-weight: 700;
       padding: 0.3rem 0.9rem;
@@ -218,6 +218,7 @@
       font-weight: 500;
       letter-spacing: -0.3px;
       margin-bottom: 0.25rem;
+      color: #3D2C2A;
     }
 
     .art-sub {
@@ -263,7 +264,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(5, 5, 3, 0.96);
+      background: rgba(253, 248, 246, 0.96);
       backdrop-filter: blur(18px);
       z-index: 2000;
       display: flex;
@@ -285,16 +286,17 @@
       flex-wrap: wrap;
       max-width: 1100px;
       width: 90%;
-      background: rgba(20, 20, 17, 0.9);
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 32px;
       overflow: hidden;
-      border: 1px solid rgba(200, 169, 81, 0.3);
+      border: 1px solid rgba(212, 140, 140, 0.3);
+      box-shadow: 0 30px 60px rgba(140, 80, 70, 0.15);
     }
 
     .lb-img {
       flex: 1.2;
       min-width: 260px;
-      background: #0c0c09;
+      background: #faf3f0;
     }
 
     .lb-img img {
@@ -307,7 +309,7 @@
     .lb-details {
       flex: 1;
       padding: 2.5rem;
-      background: #131310;
+      background: #FFFFFF;
     }
 
     .lb-close {
@@ -333,7 +335,7 @@
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      background: rgba(0,0,0,0.7);
+      background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(10px);
       padding: 0.6rem 1.2rem;
       border-radius: 60px;
@@ -343,6 +345,7 @@
       z-index: 999;
       border: 1px solid var(--border-subtle);
       font-size: 0.9rem;
+      box-shadow: 0 8px 20px rgba(180, 120, 110, 0.1);
     }
 
     .audio-btn {
@@ -359,7 +362,7 @@
 
     .audio-btn:hover {
       background: var(--gold-primary);
-      color: #0A0A08;
+      color: #fff;
       border-color: var(--gold-primary);
     }
 
@@ -382,7 +385,7 @@
         right: -100%;
         width: 70%;
         height: 100vh;
-        background: #0f0f0d;
+        background: #fff8f6;
         flex-direction: column;
         justify-content: center;
         gap: 2rem;
@@ -475,14 +478,14 @@
 
 <script>
   // --------------------------------------------------------------
-  // ACCESSORIES — with unique images
+  // ACCESSORIES — pink & white edition
   // --------------------------------------------------------------
   const accessories = [
     {
       id: 101,
       title: "Pen",
       subtitle: "Signature edition",
-      desc: "Minimalist matte pen with gold accents. A perfect daily companion.",
+      desc: "Minimalist matte pen with gold-pink accents. A perfect daily companion.",
       dimensions: "14 cm",
       price: "€4.50",
       img: "xz (8).jpeg ",
@@ -512,10 +515,10 @@
       id: 104,
       title: "Collier",
       subtitle: "Brass necklace",
-      desc: "Handcrafted brass pendant with gold finish. Adjustable chain.",
+      desc: "Handcrafted brass pendant with rose-gold finish. Adjustable chain.",
       dimensions: "45 cm chain",
       price: "€13.50",
-        img: "xz (4).jpeg ",
+      img: "xz (4).jpeg ",
       badge: null
     }
   ];
@@ -535,13 +538,12 @@
 
       let badgeHTML = '';
       if (acc.badge) {
-        const badgeClass = acc.sold ? 'badge sold' : 'badge';
-        badgeHTML = `<div class="${badgeClass}">${acc.badge}</div>`;
+        badgeHTML = `<div class="badge">${acc.badge}</div>`;
       }
 
       card.innerHTML = `
                 <div class="card-media">
-                    <img src="${acc.img}" alt="${acc.title}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/2A2A26/EAE9E2?text=Accessory';">
+                    <img src="${acc.img}" alt="${acc.title}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/F5E6E0/7A5E5A?text=Accessory';">
                     ${badgeHTML}
                 </div>
                 <div class="card-info">
@@ -570,14 +572,14 @@
     lightboxImg.alt = acc.title;
 
     lightboxDetails.innerHTML = `
-            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 500; margin-bottom: 0.5rem; letter-spacing: -0.3px; color: var(--text-primary);">${acc.title}</h2>
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 500; margin-bottom: 0.5rem; letter-spacing: -0.3px; color: #3D2C2A;">${acc.title}</h2>
             <p style="color: var(--gold-primary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 1.5rem;">${acc.subtitle}</p>
             <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">${acc.desc}</p>
             <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
                 <div><span style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Size</span><br><strong style="font-size:1rem;">${acc.dimensions}</strong></div>
                 <div><span class="price" style="font-size: 1.8rem;">${acc.price}</span></div>
             </div>
-            <a href="#" style="display: inline-block; margin-top: 2rem; background: var(--gold-primary); color: #0A0A08; padding: 0.8rem 1.8rem; text-decoration: none; font-weight: 600; font-size: 0.7rem; letter-spacing: 1px; border-radius: 40px; text-align: center; transition: all 0.2s;">Inquire →</a>
+            <a href="#" style="display: inline-block; margin-top: 2rem; background: var(--gold-primary); color: #fff; padding: 0.8rem 1.8rem; text-decoration: none; font-weight: 600; font-size: 0.7rem; letter-spacing: 1px; border-radius: 40px; text-align: center; transition: all 0.2s;">Inquire →</a>
         `;
     lightboxEl.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -672,7 +674,7 @@
   }
 
   renderAccessories();
-  console.log("Accessories page loaded — Pen 4.50€, Mug 9.50€, Eruit 15.50€, Collier 13.50€");
+  console.log("Accessories page loaded — pink & white edition");
 </script>
 </body>
 </html>
